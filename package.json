@@ -1,6 +1,6 @@
 {
   "name": "@static-pages/io",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Helpers for reading and writing data.",
   "type": "module",
   "main": "cjs/index.js",
