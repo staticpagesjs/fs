@@ -1,0 +1,8 @@
+/.github/
+/coverage/
+/src/
+/test/
+/tsconfig.json
+/.eslintrc.cjs
+*.log
+*.tgz

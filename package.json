@@ -1,0 +1,73 @@
+{
+  "name": "@static-pages/io",
+  "version": "0.0.1",
+  "description": "Helpers for reading and writing data.",
+  "type": "module",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./cjs/index.js",
+      "default": "./esm/index.js"
+    },
+    "./node": {
+      "require": "./cjs/node/index.js",
+      "default": "./esm/node/index.js"
+    }
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "deno": ">=1.0.0"
+  },
+  "scripts": {
+    "prepack": "npm run build && npm run test",
+    "postversion": "git push && git push --tags",
+    "clean": "rimraf esm cjs coverage",
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc",
+    "watch:esm": "tsc --watch",
+    "build:cjs": "tsc --outDir cjs --module commonjs && echo { \"type\": \"commonjs\" }>cjs/package.json",
+    "watch:cjs": "npm run build:cjs && tsc --outDir cjs --module commonjs --watch",
+    "lint": "eslint",
+    "test": "mocha",
+    "coverage": "c8 -r text -r text-summary -r lcov --include \"esm/*\" npm test"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "picomatch": "^3.0.1",
+    "yaml": "^2.3.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/picomatch": "^2.3.2",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "c8": "^8.0.0",
+    "eslint": "^8.1.0",
+    "mocha": "^10.2.0",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.1.6"
+  },
+  "author": "László BULIK",
+  "license": "MPL-2.0",
+  "homepage": "https://staticpagesjs.github.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/staticpagesjs/io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/staticpagesjs/io/issues"
+  },
+  "keywords": [
+    "static",
+    "pages",
+    "generator",
+    "renderer",
+    "mvc",
+    "jamstack",
+    "view",
+    "template",
+    "controller"
+  ]
+}
