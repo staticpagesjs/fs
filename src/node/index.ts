@@ -1,3 +1,5 @@
 export type { Filesystem } from '../helpers.js';
-export { read, ReadOptions, isReadOptions } from './read.js';
-export { write, WriteOptions, isWriteOptions } from './write.js';
+export type { ReadOptions } from './read.js';
+export type { WriteOptions } from './write.js';
+export { read, isReadOptions } from './read.js';
+export { write, isWriteOptions } from './write.js';
