@@ -11,7 +11,7 @@ In most cases you should not use this io package directly, but the [@static-page
 
 ```js
 import staticPages from '@static-pages/core';
-import { read, write } from '@static-pages/io';
+import { read, write } from '@static-pages/io/node';
 
 staticPages({
     from: read({
