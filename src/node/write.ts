@@ -3,8 +3,9 @@ import { write as baseWrite, isWriteOptions as baseIsWriteOptions } from '../wri
 import * as nodeFs from 'node:fs';
 
 export type WriteOptions<T> =
-	Partial<Pick<BaseWriteOptions<T>, 'fs'>>
-	& Omit<BaseWriteOptions<T>, 'fs'>;
+	(Partial<Pick<BaseWriteOptions<T>, 'fs'>>
+	& Omit<BaseWriteOptions<T>, 'fs'>)
+	| undefined;
 
 export const isWriteOptions = <T>(x: unknown): x is WriteOptions<T> => {
 	if (!x) return true;
