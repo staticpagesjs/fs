@@ -1,5 +1,5 @@
 import assert from 'assert';
-import { write } from '../esm/index.js';
+import { write } from '../index.js';
 
 import { createFilesystem } from './helpers/createFilesystem.cjs';
 

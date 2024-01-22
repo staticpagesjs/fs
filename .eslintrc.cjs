@@ -1,12 +1,11 @@
 module.exports = {
 	'env': {
 		'node': true,
-		'es2019': true
+		'es2020': true
 	},
 	'extends': [
 		'eslint:recommended',
 		'plugin:@typescript-eslint/recommended',
-		'plugin:jest/recommended',
 	],
 	'parser': '@typescript-eslint/parser',
 	'parserOptions': {
@@ -29,8 +28,7 @@ module.exports = {
 			'error',
 			'always'
 		],
-		'@typescript-eslint/no-namespace': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
 	},
-	'ignorePatterns': ['cjs/', 'esm/', 'tests/'],
+	'ignorePatterns': ['*.js', '*.cjs', 'test'],
 };

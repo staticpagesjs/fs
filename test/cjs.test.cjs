@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { read } = require('../cjs/index.js');
+const { read } = require('../index.cjs');
 
 const { createFilesystem } = require('./helpers/createFilesystem.cjs');
 const { json, yaml, md } = require('./helpers/stringify.cjs');

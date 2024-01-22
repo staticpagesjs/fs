@@ -1,6 +1,10 @@
-/esm/
-/cjs/
+/node/
 /node_modules/
 /coverage/
 *.log
 *.tgz
+/*.d.ts
+/*.js
+/*.cjs
+/*.mjs
+!/.eslintrc.cjs
