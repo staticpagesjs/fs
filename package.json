@@ -3,17 +3,19 @@
   "version": "0.0.6",
   "description": "Helpers for reading and writing data.",
   "type": "module",
-  "main": "cjs/index.js",
-  "module": "esm/index.js",
-  "types": "esm/index.d.ts",
+  "module": "./index.js",
+  "main": "./index.cjs",
+  "types": "./index.d.ts",
   "exports": {
     ".": {
-      "require": "./cjs/index.js",
-      "default": "./esm/index.js"
+      "import": "./index.js",
+      "require": "./index.cjs",
+      "types": "./index.d.ts"
     },
     "./node": {
-      "require": "./cjs/node/index.js",
-      "default": "./esm/node/index.js"
+      "import": "./node/index.js",
+      "require": "./node/index.js",
+      "types": "./node/index.d.ts"
     }
   },
   "engines": {
