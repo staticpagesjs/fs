@@ -7,7 +7,7 @@ export type ReadOptions<T> =
 	& Omit<BaseReadOptions<T>, 'fs'>)
 	| undefined;
 
-export const isReadOptions = <T>(x: unknown): x is ReadOptions<T> => {
+export const isReadOptions = (x: any): x is ReadOptions<any> => {
 	if (!x) return true;
 	return baseIsReadOptions(x);
 };

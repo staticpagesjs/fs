@@ -7,7 +7,7 @@ export type WriteOptions<T> =
 	& Omit<BaseWriteOptions<T>, 'fs'>)
 	| undefined;
 
-export const isWriteOptions = <T>(x: unknown): x is WriteOptions<T> => {
+export const isWriteOptions = (x: any): x is WriteOptions<any> => {
 	if (!x) return true;
 	return baseIsWriteOptions(x);
 };

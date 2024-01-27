@@ -27,7 +27,7 @@ export interface WriteOptions<T> {
 	onError?(error: unknown): void | Promise<void>;
 }
 
-export const isWriteOptions = <T>(x: unknown): x is WriteOptions<T> => {
+export const isWriteOptions = (x: any): x is WriteOptions<any> => {
 	if (!x || typeof x !== 'object') {
 		return false;
 	}

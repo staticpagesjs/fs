@@ -33,7 +33,7 @@ export interface ReadOptions<T> {
     onError?(error: unknown): void | Promise<void>;
 }
 
-export const isReadOptions = <T>(x: unknown): x is ReadOptions<T> => {
+export const isReadOptions = (x: any): x is ReadOptions<any> => {
 	if (!x || typeof x !== 'object' || isIterable(x) || isAsyncIterable(x)) {
 		return false;
 	}
