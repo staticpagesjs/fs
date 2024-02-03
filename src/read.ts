@@ -1,7 +1,7 @@
 import type { Filesystem } from './helpers.js';
 import { getType, isIterable, isAsyncIterable, isFilesystem } from './helpers.js';
 import picomatch from 'picomatch';
-import { parse as parseYAML } from 'yaml';
+import { load as parseYAML } from 'js-yaml';
 import parseMarkdown from 'gray-matter';
 
 export interface ReadOptions<T> {

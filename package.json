@@ -23,33 +23,29 @@
     "deno": ">=1.0.0"
   },
   "scripts": {
-    "clean": "rimraf --glob \"!(.*).{d.ts,js,cjs,mjs}\" build node coverage",
-    "preversion": "npm run build && npm run test",
+    "prepack": "npm run build && npm run test",
     "postversion": "git push && git push --tags",
-    "watch": "chokidar src tsconfig.json -c \"npm run build\" --initial",
-    "build": "npm run build:esm && npm run build:cjs && npm run build:types",
-    "build:esm": "rimraf build && tsc && npm run move-build && rimraf build",
-    "build:cjs": "rimraf build && tsc --module commonjs --moduleResolution node && npm run move-build -- -- --cjs && rimraf build",
-    "build:types": "rimraf build && tsc --declaration --emitDeclarationOnly && npm run move-build && rimraf build",
-    "move-build": "node -e \"process.chdir('build');const fs=require('fs');const path=require('path');fs.readdirSync('.',{recursive:true,withFileTypes:true}).filter(x=>x.isFile()).forEach(x=>{const f=path.join(x.path,x.name);const o=path.join('..',f);fs.mkdirSync(path.dirname(o),{recursive:true});if(process.argv[1]==='--cjs'){fs.writeFileSync(o.slice(0,-2)+'cjs',fs.readFileSync(f,'utf8').replace(/require\\(\\\"(.+?)\\.js\\\"\\)/g,'require\\(\\\"\\$1.cjs\\\"\\)'));}else{fs.renameSync(f,o);}});\"",
-    "lint": "eslint src",
+    "clean": "node scripts/clean.js",
+    "build": "node scripts/build.js",
+    "watch": "node scripts/watch.js",
     "test": "mocha",
-    "coverage": "c8 -r text -r text-summary -r lcov --include \"*.js\" npm test"
+    "coverage": "c8 -r text -r text-summary -r lcov --include \"*.js\" npm test",
+    "lint": "eslint src"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
-    "picomatch": "^3.0.1",
-    "yaml": "^2.3.4"
+    "js-yaml": "^3.14.1",
+    "picomatch": "^3.0.1"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20.10.5",
-    "@types/picomatch": "^2.3.2",
+    "@types/picomatch": "^2.3.3",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
-    "c8": "^8.0.0",
+    "c8": "^9.1.0",
     "eslint": "^8.1.0",
     "mocha": "^10.2.0",
-    "rimraf": "^5.0.1",
     "typescript": "^5.1.6"
   },
   "author": "László BULIK",
