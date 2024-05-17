@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@static-pages/io",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Helpers for reading and writing data.",
   "main": "./index.cjs",
   "module": "./index.mjs",
