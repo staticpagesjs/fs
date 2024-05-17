@@ -4,7 +4,7 @@ import {
 	isIterable,
 	isAsyncIterable,
 	isFilesystem,
-} from '../helpers.js';
+} from '../package/helpers.mjs';
 
 import fs from 'node:fs';
 import { createFilesystem } from './helpers/createFilesystem.cjs';

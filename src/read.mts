@@ -1,8 +1,8 @@
-import type { Filesystem } from './helpers.js';
-import { getType, isIterable, isAsyncIterable, isFilesystem } from './helpers.js';
+import type { Filesystem } from './helpers.mjs';
+import { getType, isIterable, isAsyncIterable, isFilesystem } from './helpers.mjs';
+import YAML from 'js-yaml';
 import picomatch from 'picomatch';
-import { load as parseYAML } from 'js-yaml';
-import parseMarkdown from 'gray-matter';
+import graymatter from 'gray-matter';
 
 export interface ReadOptions<T> {
     /**
@@ -58,12 +58,12 @@ const defaultParser = (content: string | Uint8Array, filename: string) => {
 
 		case 'yaml':
 		case 'yml':
-			doc = parseYAML(content.toString());
+			doc = YAML.load(content.toString());
 			break;
 
 		case 'md':
 		case 'markdown':
-			const { data, content: markdownContent } = parseMarkdown(content.toString());
+			const { data, content: markdownContent } = graymatter(content.toString());
 			doc = { ...data, content: markdownContent };
 			break;
 

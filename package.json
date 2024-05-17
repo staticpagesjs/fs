@@ -1,21 +1,21 @@
 {
+  "private": true,
   "name": "@static-pages/io",
   "version": "0.0.8",
   "description": "Helpers for reading and writing data.",
-  "type": "module",
-  "module": "./index.js",
   "main": "./index.cjs",
+  "module": "./index.mjs",
   "types": "./index.d.ts",
   "exports": {
     ".": {
-      "import": "./index.js",
       "require": "./index.cjs",
-      "types": "./index.d.ts"
+      "import": "./index.mjs",
+      "types": "./index.d.mts"
     },
     "./node": {
-      "import": "./node/index.js",
-      "require": "./node/index.js",
-      "types": "./node/index.d.ts"
+      "require": "./node/index.cjs",
+      "import": "./node/index.mjs",
+      "types": "./node/index.d.mts"
     }
   },
   "engines": {
@@ -23,31 +23,29 @@
     "deno": ">=1.0.0"
   },
   "scripts": {
-    "prepack": "npm run build && npm run test",
-    "postversion": "git push && git push --tags",
-    "clean": "node scripts/clean.js",
-    "build": "node scripts/build.js",
-    "watch": "node scripts/watch.js",
+    "clean": "node scripts/clean.mjs",
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/watch.mjs",
     "test": "mocha",
-    "coverage": "c8 -r text -r text-summary -r lcov --include \"*.js\" npm test",
-    "lint": "eslint src"
+    "coverage": "c8 -r text -r text-summary -r lcov --include \"**/*.mjs\" npm test",
+    "prepublishOnly": "echo Default 'npm publish' disabled, use 'npm run publish' instead && exit 1",
+    "publish": "npm run build && npm run test && cd package && npm publish",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
     "js-yaml": "^3.14.1",
-    "picomatch": "^3.0.1"
+    "picomatch": "^4.0.2"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^20.10.5",
+    "@types/node": "^20.12.12",
     "@types/picomatch": "^2.3.3",
-    "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0",
     "c8": "^9.1.0",
-    "chokidar": "^3.5.3",
-    "eslint": "^8.1.0",
-    "mocha": "^10.2.0",
-    "typescript": "^5.1.6"
+    "chokidar": "^3.6.0",
+    "mocha": "^10.4.0",
+    "semver": "^7.6.2",
+    "typescript": "^5.4.5"
   },
   "author": "László BULIK",
   "license": "MPL-2.0",

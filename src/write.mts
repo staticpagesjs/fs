@@ -1,5 +1,5 @@
-import type { Filesystem } from './helpers.js';
-import { getType, isFilesystem } from './helpers.js';
+import type { Filesystem } from './helpers.mjs';
+import { getType, isFilesystem } from './helpers.mjs';
 
 export interface WriteOptions<T> {
 	/**
@@ -38,14 +38,14 @@ export const isWriteOptions = (x: any): x is WriteOptions<any> => {
 	return true;
 };
 
-const defaultNamer = <T>(data: T) => {
+const defaultNamer = <T,>(data: T) => {
 	if (!!data && typeof data === 'object' && 'url' in data && typeof data.url === 'string') {
 		return data.url.concat('.html');
 	}
 	throw new Error(`Missing 'url' field in the document.`);
 };
 
-const defaultRenderer = <T>(data: T) => {
+const defaultRenderer = <T,>(data: T) => {
 	if (!!data && typeof data === 'object' && 'content' in data) {
 		return '' + data.content;
 	}

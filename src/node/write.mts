@@ -1,5 +1,5 @@
-import type { WriteOptions as BaseWriteOptions } from '../write.js';
-import { write as baseWrite, isWriteOptions as baseIsWriteOptions } from '../write.js';
+import type { WriteOptions as BaseWriteOptions } from '../write.mjs';
+import { write as baseWrite, isWriteOptions as baseIsWriteOptions } from '../write.mjs';
 import * as nodeFs from 'node:fs';
 
 export type WriteOptions<T> =
