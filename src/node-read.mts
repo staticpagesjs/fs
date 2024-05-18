@@ -1,5 +1,5 @@
-import type { ReadOptions as BaseReadOptions } from '../read.mjs';
-import { read as baseRead, isReadOptions as baseIsReadOptions } from '../read.mjs';
+import type { ReadOptions as BaseReadOptions } from './read.mjs';
+import { read as baseRead, isReadOptions as baseIsReadOptions } from './read.mjs';
 import * as nodeFs from 'node:fs';
 
 export type ReadOptions<T> =
