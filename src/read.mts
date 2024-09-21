@@ -1,8 +1,7 @@
 import type { Filesystem } from './helpers.mjs';
 import { getType, isIterable, isAsyncIterable, isFilesystem } from './helpers.mjs';
-import YAML from 'js-yaml';
 import picomatch from 'picomatch';
-import graymatter from 'gray-matter';
+import { defaultParser } from './default-parser.mjs';
 
 export interface ReadOptions<T> {
     /**
@@ -44,44 +43,12 @@ export const isReadOptions = (x: any): x is ReadOptions<any> => {
 	return true;
 };
 
-const defaultParser = (content: string | Uint8Array, filename: string) => {
-	const dot = filename.lastIndexOf('.');
-	if (dot < 1) {
-		throw new Error(`Could not parse document without an extension.`);
-	}
-	const extension = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
-	let doc: any;
-	switch (extension) {
-		case 'json':
-			doc = JSON.parse(content.toString());
-			break;
-
-		case 'yaml':
-		case 'yml':
-			doc = YAML.load(content.toString());
-			break;
-
-		case 'md':
-		case 'markdown':
-			const { data, content: markdownContent } = graymatter(content.toString());
-			doc = { ...data, content: markdownContent };
-			break;
-
-		default:
-			throw new Error(`Could not parse document with '${extension}' extension.`);
-	}
-	if (doc && typeof doc === 'object' && !('url' in doc)) {
-		doc.url = filename.substring(0, dot).replace(/\\/g, '/');
-	}
-	return doc;
-};
-
 export async function* read<T>({
 	fs,
 	cwd = 'pages',
 	pattern,
 	ignore,
-	parse = defaultParser,
+	parse = defaultParser(),
 	onError = (error: unknown) => { throw error; },
 }: ReadOptions<T>) {
 	if (!isFilesystem(fs)) throw new TypeError(`Expected Node FS compatible implementation at 'fs' property.`);
