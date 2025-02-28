@@ -123,6 +123,25 @@ interface Filesystem {
 }
 ```
 
+### `createFilesystem(files: Record<string, FileContent>): Filesystem`
+
+This helper is designed to easily create in-memory unix-like filesystems. The
+`files` parameter is an object whose keys are the full paths of the files and
+whose values are the file contents (see the `FileContent` type below).
+
+```ts
+type FileContent = string | {
+    encoding?: 'text' | 'base64';
+    content: string;
+};
+```
+
+When `FileContent` is a `string`, it should be a plain text file. When it's an
+object, it can also contain binary files by setting `encoding` to `base64`
+(defaults to `text`).
+
+Paths are always normalized to begin with a forward slash. Every slashes are normalized to forward slashes.
+
 ### About the default `parse` function
 
 When using the default parser, a file type will be guessed by the file extension.
