@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "@static-pages/io",
+  "name": "@static-pages/fs",
   "version": "1.1.0",
-  "description": "Helpers for reading and writing data.",
+  "description": "Provides helpers for the static pages generator to read from and write to an arbitary filesystem.",
   "main": "./index.cjs",
   "module": "./index.mjs",
   "types": "./index.d.ts",

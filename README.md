@@ -1,17 +1,17 @@
-# Static Pages / IO
+# Static Pages / FS
 
 This package provides utilities for reading and writing documents from an abstract filesystem.
 
 Use `read()` to create an async iterable collection of documents, and `write()` to handle rendering and storing.
 
-This project is structured as a toolkit split to many packages, published under the [@static-pages](https://www.npmjs.com/search?q=%40static-pages) namespace on NPM.
-In most cases you should not use this io package directly, but the [@static-pages/starter](https://www.npmjs.com/package/@static-pages/starter) is a good point to begin with.
+This project is structured as a toolkit split to many packages, published under the [@static-pages](https://www.npmjs.com/org/static-pages) namespace on NPM.
+In most cases you should not use this core package directly, but the [@static-pages/starter](https://www.npmjs.com/package/@static-pages/starter) is a good point to begin with.
 
 ## Usage
 
 ```js
 import staticPages from '@static-pages/core';
-import { read, write } from '@static-pages/io/node';
+import { read, write } from '@static-pages/fs/node';
 
 staticPages({
     from: read({
@@ -81,7 +81,9 @@ interface WriteOptions<T> {
 
 ### `Filesystem` interface
 
-You can provide a `Filesystem` implementation for both `read()` and `write()` helpers. This interface is a minimal subset of the [NodeJS FS API](https://nodejs.org/api/fs.html).
+You can provide a `Filesystem` implementation for both `read()` and `write()`
+helpers. This interface is a minimal subset of the [NodeJS FS API](https://nodejs.org/api/fs.html)
+so you can simply plug the `node:fs` package in.
 
 ```ts
 interface Filesystem {
@@ -129,13 +131,17 @@ These could be `json`, `yaml`, `yml`, `md` or `markdown`.
 - `yaml` and `yml` will be parsed with the `yaml` package
 - `md` and `markdown` will be parsed with the `gray-matter` package
 
-When the document is missing an `url` property this function will assign the filename without extension to it.
+When the document is missing an `url` property this function will assign the
+filename without extension to it.
 
-### Importing `@static-pages/io/node`
+### Importing `@static-pages/fs/node`
 
-The `@static-pages/io/node` export provides the same functions as the `@static-pages/io` with the added benefit of setting the default value of the `fs` property to the `node:fs` package.
+The `@static-pages/fs/node` export provides the same functions as the
+`@static-pages/fs` with the added benefit of setting the default value of the
+`fs` property to the `node:fs` package.
 
-This way it is easier to use these utility functions from a node script and also easier to bundle them for browsers.
+This way it is easier to use these utility functions from a node script and also
+easier to bundle them for browsers.
 
 ## Missing a feature?
 Create an issue describing your needs!
