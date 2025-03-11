@@ -77,6 +77,7 @@ export async function* read<T>({
 					}
 				});
 			}
+			resolve([]);
 		});
 	});
 
