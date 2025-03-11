@@ -5,6 +5,7 @@ import {
 import {
 	isFilesystem,
 } from '../package/helpers.mjs';
+import { read } from '../package/read.mjs';
 
 describe('createFilesystem() Tests', () => {
 	it('initialize test', async () => {
@@ -77,4 +78,19 @@ describe('createFilesystem() Tests', () => {
 			});
 		});
 	});
+
+	it('works with read() on empty fs object', async () => {
+		const input = { };
+		const fs = createFilesystem(input);
+
+		const reader = read({ fs: fs });
+
+		let ok = true;
+		for await (const item of reader) {
+			ok = false;
+		}
+
+		assert.strictEqual(ok, true);
+	});
+
 });
