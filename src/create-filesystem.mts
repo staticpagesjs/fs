@@ -59,9 +59,19 @@ export function createFilesystem(files: Record<string, FileContent>): Filesystem
 	): void {
 		const p = normalize(path);
 		if (options.recursive) {
-			return callback(null, Object.keys(files).filter(name => name.startsWith(p + '/')));
+			if (p === '') {
+				return callback(null, Object.keys(files));
+			} else {
+				return callback(null, Object.keys(files)
+					.filter(name => name.startsWith(p + '/'))
+					.map(name => name.substring(p.length + 1))
+				);
+			}
 		} else {
-			return callback(null, Object.keys(files).filter(name => dirname(name) === p));
+			return callback(null, Object.keys(files)
+				.filter(name => dirname(name) === p)
+				.map(name => name.substring(p.length + 1))
+			);
 		}
 	}
 
