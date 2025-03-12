@@ -64,6 +64,7 @@ export async function* read<T>({
 	let filenames: string[] = await new Promise((resolve, reject) => {
 		fs.readdir(cwd, { recursive: true, withFileTypes: false, encoding: 'utf8' }, (err, entries) => {
 			if (err) return reject(err);
+			if (entries.length === 0) return resolve([]);
 			let filtered: string[] = [];
 			let processed = 0;
 			for (const entry of entries) {
@@ -77,7 +78,6 @@ export async function* read<T>({
 					}
 				});
 			}
-			resolve([]);
 		});
 	});
 
