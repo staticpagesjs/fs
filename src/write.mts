@@ -1,5 +1,5 @@
 import type { Filesystem } from './helpers.mjs';
-import { getType, isFilesystem } from './helpers.mjs';
+import { getType, isFilesystem, dirname, normalize } from './helpers.mjs';
 
 export interface WriteOptions<T> {
 	/**
@@ -70,8 +70,8 @@ export function write<T>({
 
 	return async function (data: T) {
 		try {
-			const filepath = cwd + '/' + (await name(data)).replace(/\\/g, '/');
-			const dirpath = filepath.substring(0, filepath.lastIndexOf('/'));
+			const filepath = normalize(cwd + '/' + await name(data));
+			const dirpath = dirname(filepath);
 			await new Promise((resolve, reject) => {
 				fs.stat(dirpath, (err, stats) => {
 					if (err) {

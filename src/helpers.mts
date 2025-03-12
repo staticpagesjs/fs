@@ -40,3 +40,21 @@ export interface Filesystem {
 		callback: (err: Error | null) => void
 	): void;
 }
+
+export function normalize(p: string | URL): string {
+	const segments: string[] = [];
+	for (const segment of (typeof p === 'string' ? p : p.pathname).split(/[\\\/]/)) {
+		if (segment === '' || segment === '.') {
+			// skip
+		} else if (segment === '..') {
+			segments.pop();
+		} else {
+			segments.push(segment);
+		}
+	}
+	return segments.join('/');
+}
+
+export function dirname(path: string): string {
+	return path.substring(0, path.lastIndexOf('/'));
+}

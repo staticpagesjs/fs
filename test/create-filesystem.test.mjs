@@ -10,7 +10,7 @@ import { read } from '../package/read.mjs';
 describe('createFilesystem() Tests', () => {
 	it('initialize test', async () => {
 		const input =    { hello: '# Hello' };
-		const expectedFiles = { '/hello': '# Hello' };
+		const expectedFiles = { 'hello': '# Hello' };
 		const output = createFilesystem(input);
 
 		assert.strictEqual(isFilesystem(output), true);
@@ -32,7 +32,7 @@ describe('createFilesystem() Tests', () => {
 
 	it('write file test', async () => {
 		const input =    { hello: '# Hello' };
-		const expected = { '/hello': '# Hello', '/world': 'cont.' };
+		const expected = { 'hello': '# Hello', 'world': 'cont.' };
 		const fs = createFilesystem(input);
 
 		await new Promise((resolve) => {
@@ -45,12 +45,12 @@ describe('createFilesystem() Tests', () => {
 
 	it('readdir test', async () => {
 		const input =    {
-			'/a/hello.md': '# Hello',
-			'/a/world.md': '# World',
-			'/a/b/foo.md': '# Foo',
-			'/c/bar.md': '# Bar',
+			'a/hello.md': '# Hello',
+			'a/world.md': '# World',
+			'a/b/foo.md': '# Foo',
+			'c/bar.md': '# Bar',
 		};
-		const expected = ['/a/hello.md', '/a/world.md'];
+		const expected = ['hello.md', 'world.md'];
 		const fs = createFilesystem(input);
 
 		await new Promise((resolve) => {
@@ -63,12 +63,12 @@ describe('createFilesystem() Tests', () => {
 
 	it('readdir recursive test', async () => {
 		const input =    {
-			'/a/hello.md': '# Hello',
-			'/a/world.md': '# World',
-			'/a/b/foo.md': '# Foo',
-			'/c/bar.md': '# Bar',
+			'a/hello.md': '# Hello',
+			'a/world.md': '# World',
+			'a/b/foo.md': '# Foo',
+			'c/bar.md': '# Bar',
 		};
-		const expected = ['/a/hello.md', '/a/world.md', '/a/b/foo.md'];
+		const expected = ['hello.md', 'world.md', 'b/foo.md'];
 		const fs = createFilesystem(input);
 
 		await new Promise((resolve) => {

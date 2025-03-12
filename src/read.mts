@@ -1,5 +1,5 @@
 import type { Filesystem } from './helpers.mjs';
-import { getType, isIterable, isAsyncIterable, isFilesystem } from './helpers.mjs';
+import { getType, isIterable, isAsyncIterable, isFilesystem, normalize } from './helpers.mjs';
 import picomatch from 'picomatch';
 import { defaultParser } from './default-parser.mjs';
 
@@ -45,7 +45,7 @@ export const isReadOptions = (x: any): x is ReadOptions<any> => {
 
 export async function* read<T>({
 	fs,
-	cwd = 'pages',
+	cwd = '',
 	pattern,
 	ignore,
 	parse = defaultParser(),
@@ -53,13 +53,12 @@ export async function* read<T>({
 }: ReadOptions<T>) {
 	if (!isFilesystem(fs)) throw new TypeError(`Expected Node FS compatible implementation at 'fs' property.`);
 	if (typeof cwd !== 'string') throw new TypeError(`Expected 'string', recieved '${getType(cwd)}' at 'cwd' property.`);
-	if (!cwd) throw new TypeError(`Expected non-empty string at 'cwd'.`);
 	if (typeof pattern !== 'undefined' && typeof pattern !== 'string' && !Array.isArray(pattern)) throw new TypeError(`Expected 'string' or 'string[]', recieved '${getType(pattern)}' at 'pattern' property.`);
 	if (typeof ignore !== 'undefined' && typeof ignore !== 'string' && !Array.isArray(ignore)) throw new TypeError(`Expected 'string' or 'string[]', recieved '${getType(ignore)}' at 'ignore' property.`);
 	if (typeof parse !== 'function') throw new TypeError(`Expected 'function', recieved '${getType(parse)}' at 'parse' property.`);
 	if (typeof onError !== 'function') throw new TypeError(`Expected 'function', recieved '${getType(onError)}' at 'onError' property.`);
 
-	cwd = cwd.replace(/\\/g, '/');
+	cwd = normalize(cwd);
 
 	let filenames: string[] = await new Promise((resolve, reject) => {
 		fs.readdir(cwd, { recursive: true, withFileTypes: false, encoding: 'utf8' }, (err, entries) => {
@@ -68,7 +67,8 @@ export async function* read<T>({
 			let filtered: string[] = [];
 			let processed = 0;
 			for (const entry of entries) {
-				fs.stat(cwd + '/' + entry, (err, stats) => {
+				const filename = normalize(cwd + '/' + entry);
+				fs.stat(filename, (err, stats) => {
 					if (err) return reject(err);
 					if (stats.isFile()) {
 						filtered.push(entry);
@@ -95,7 +95,7 @@ export async function* read<T>({
 	for (const filename of filenames) {
 		try {
 			const content: Uint8Array = await new Promise((resolve, reject) => {
-				fs.readFile(cwd + '/' + filename, (err, data) => {
+				fs.readFile(normalize(cwd + '/' + filename), (err, data) => {
 					if (err) reject(err);
 					else resolve(data);
 				});

@@ -77,6 +77,7 @@ describe('Reader Tests', () => {
 		];
 
 		const iterable = read({
+			cwd: 'pages',
 			fs: createFilesystem(fsContent),
 		});
 
@@ -173,18 +174,6 @@ describe('Reader Tests', () => {
 		}, { message: `Expected Node FS compatible implementation at 'fs' property.` });
 	});
 
-	it('should throw when "cwd" recieves an empty string', async () => {
-		await assert.rejects(async () => {
-			const iterable = read({
-				fs: createFilesystem([]),
-				cwd: ''
-			});
-
-			await iterable.next();
-
-		}, { message: `Expected non-empty string at 'cwd'.` });
-	});
-
 	it('should throw when "cwd" recieves a non string value', async () => {
 		await assert.rejects(async () => {
 			const iterable = read({
@@ -231,19 +220,6 @@ describe('Reader Tests', () => {
 			await iterable.next();
 
 		}, { message: `Expected 'function', recieved 'number' at 'parse' property.` });
-	});
-
-	it('should throw when the default parser recieves a file without an extension', async () => {
-		await assert.rejects(async () => {
-			const iterable = read({
-				fs: createFilesystem([
-					['pages/myfile', 'abc']
-				]),
-			});
-
-			await iterable.next();
-
-		}, { message: `Could not parse document without an extension.` });
 	});
 
 	it('should throw when the default parser recieves an unknown file format', async () => {

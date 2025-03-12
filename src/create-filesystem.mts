@@ -1,26 +1,8 @@
-import type { Filesystem } from './helpers.mjs';
+import { normalize, dirname, type Filesystem } from './helpers.mjs';
 
 export type FileContent =
 	| string
 	| { encoding: 'text' | 'base64'; content: string; };
-
-function normalize(p: string | URL): string {
-	const segments: string[] = [];
-	for (const segment of (typeof p === 'string' ? p : p.pathname).split(/[\\\/]/)) {
-		if (segment === '' || segment === '.') {
-			// skip
-		} else if (segment === '..') {
-			segments.pop();
-		} else {
-			segments.push(segment);
-		}
-	}
-	return '/' + segments.join('/');
-}
-
-function dirname(path: string): string {
-	return path.substring(0, path.lastIndexOf('/'));
-}
 
 export function createFilesystem(files: Record<string, FileContent>): Filesystem {
 	for (const path of Object.keys(files)) {
