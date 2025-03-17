@@ -76,13 +76,13 @@ export function createFilesystem(files: Record<string, FileContent>): Filesystem
 			return callback(new Error(`ENOENT: no such file, readFile '${p}'`), undefined as any);
 		}
 		const content = files[p];
-		let buf: Buffer;
+		let buf: Uint8Array;
 		if (typeof content === 'string') {
-			buf = Buffer.from(content, 'utf8');
+			buf = utf8ToUint8Array(content);
 		} else if (content.encoding === 'text') {
-			buf = Buffer.from(content.content, 'utf8');
+			buf = utf8ToUint8Array(content.content);
 		} else if (content.encoding === 'base64') {
-			buf = Buffer.from(content.content, 'base64');
+			buf = base64ToUint8Array(content.content);
 		} else {
 			return callback(new Error(`Unknown encoding for file '${p}'`), undefined as any);
 		}
@@ -98,10 +98,33 @@ export function createFilesystem(files: Record<string, FileContent>): Filesystem
 		if (typeof data === 'string') {
 			files[p] = data;
 		} else {
-			files[p] = { encoding: 'base64', content: Buffer.from(data).toString('base64') };
+			files[p] = {
+				encoding: 'base64',
+				content: Uint8ArrayToBase64(data),
+			};
 		}
 		callback(null);
 	}
 
 	return { stat, readdir, mkdir, readFile, writeFile };
+}
+
+const encoder = new TextEncoder();
+const decoder = new TextDecoder('utf-8', { ignoreBOM: true });
+
+function Uint8ArrayToBase64(from: Uint8Array) {
+	return btoa(decoder.decode(from));
+}
+
+function utf8ToUint8Array(from: string) {
+	return encoder.encode(from);
+}
+
+function base64ToUint8Array(from: string) {
+	const binaryString = atob(from);
+	const uint8Array = new Uint8Array(binaryString.length);
+	for (let i = 0; i < binaryString.length; i++) {
+		uint8Array[i] = binaryString.charCodeAt(i);
+	}
+	return uint8Array;
 }

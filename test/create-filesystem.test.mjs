@@ -24,7 +24,7 @@ describe('createFilesystem() Tests', () => {
 
 		await new Promise((resolve) => {
 			fs.readFile('hello', (err, data) => {
-				assert.strictEqual(data.toString('utf8'), expected);
+				assert.strictEqual(new TextDecoder().decode(data), expected);
 				resolve();
 			});
 		});

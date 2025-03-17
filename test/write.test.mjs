@@ -10,6 +10,29 @@ describe('Writer Tests', () => {
 			{ url: 'file2', content: 'content2' }
 		];
 		const expected = [
+			[''], // the parent dir!
+			['file1.html', 'content1'],
+			['file2.html', 'content2']
+		];
+
+		const fsContent = [];
+		const writer = write({
+			fs: createFilesystem(fsContent),
+		});
+
+		for (const page of pages) {
+			await writer(page);
+		}
+
+		assert.deepStrictEqual(fsContent, expected);
+	});
+
+	it('writes to the defined cwd', async () => {
+		const pages = [
+			{ url: 'file1', content: 'content1' },
+			{ url: 'file2', content: 'content2' }
+		];
+		const expected = [
 			['public'],
 			['public/file1.html', 'content1'],
 			['public/file2.html', 'content2']
@@ -17,6 +40,7 @@ describe('Writer Tests', () => {
 
 		const fsContent = [];
 		const writer = write({
+			cwd: 'public',
 			fs: createFilesystem(fsContent),
 		});
 
@@ -112,15 +136,6 @@ describe('Writer Tests', () => {
 				cwd: 123
 			});
 		}, { message: `Expected 'string', recieved 'number' at 'cwd' property.` });
-	});
-
-	it('should throw when "cwd" recieves an empty string', async () => {
-		await assert.rejects(async () => {
-			write({
-				fs: createFilesystem([]),
-				cwd: ''
-			});
-		}, { message: `Expected non-empty string at 'cwd'.` });
 	});
 
 	it('should throw when "render" recieves an invalid type', async () => {

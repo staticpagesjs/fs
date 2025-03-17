@@ -22,15 +22,16 @@ const createFilesystem = (entries) => ({
 	},
 	readFile(name, cb) {
 		const entry = entries.find(([x]) => path.relative(name, x) === '');
-		if (entry) cb(null, Buffer.from(entry[1]));
+		if (entry) cb(null, new TextEncoder().encode(entry[1]));
 		else cb(new Error('No file ' + name));
 	},
 	writeFile(name, data, cb) {
 		const entry = entries.find(([x]) => path.relative(name, x) === '');
+		const content = typeof data === 'string' ? data : new TextDecoder('utf-8').decode(data);
 		if (entry) {
-			entry[1] = data;
+			entry[1] = content;
 		} else {
-			entries.push([name, data]);
+			entries.push([name, content]);
 		}
 		cb(null);
 	},

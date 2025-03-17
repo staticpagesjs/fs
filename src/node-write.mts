@@ -2,10 +2,11 @@ import type { WriteOptions as BaseWriteOptions } from './write.mjs';
 import { write as baseWrite, isWriteOptions as baseIsWriteOptions } from './write.mjs';
 import * as nodeFs from 'node:fs';
 
-export type WriteOptions<T> =
-	(Partial<Pick<BaseWriteOptions<T>, 'fs'>>
-	& Omit<BaseWriteOptions<T>, 'fs'>)
-	| undefined;
+export type WriteOptions<T> = undefined | (
+	Omit<BaseWriteOptions<T>, 'fs'>
+	& {
+		fs?: BaseWriteOptions<T>['fs'];
+	});
 
 export const isWriteOptions = (x: any): x is WriteOptions<any> => {
 	if (!x) return true;
@@ -13,12 +14,5 @@ export const isWriteOptions = (x: any): x is WriteOptions<any> => {
 };
 
 export function write<T>(options: WriteOptions<T> = {}) {
-	return baseWrite(
-		typeof options.fs !== 'undefined'
-		? options as BaseWriteOptions<T>
-		: {
-			...options,
-			fs: nodeFs,
-		}
-	);
+	return baseWrite({ fs: nodeFs as any, ...options });
 }

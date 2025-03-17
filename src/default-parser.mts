@@ -10,6 +10,8 @@ const autoUrl = (doc: any, filename: string) => {
 	}
 };
 
+const decoder = new TextDecoder('utf-8');
+
 export const defaultParser = (
 	extensions: Record<string, string | ((content: string | Uint8Array) => any)> = {},
 	postprocess: PostProcessCallback = autoUrl
@@ -23,10 +25,10 @@ export const defaultParser = (
 		...extensions,
 		yml: 'yaml',
 		markdown: 'md',
-		json(content) { return JSON.parse(content.toString()); },
-		yaml(content) { return YAML.load(content.toString()); },
+		json(content) { return JSON.parse(typeof content === 'string' ? content : decoder.decode(content)); },
+		yaml(content) { return YAML.load(typeof content === 'string' ? content : decoder.decode(content)); },
 		md(content) {
-			const { data, content: markdownContent } = graymatter(content.toString());
+			const { data, content: markdownContent } = graymatter(typeof content === 'string' ? content : decoder.decode(content));
 			return { ...data, content: markdownContent };
 		},
 	};
