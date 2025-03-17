@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@static-pages/fs",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Provides helpers for the static pages generator to read from and write to an arbitary filesystem.",
   "main": "./index.cjs",
   "module": "./index.mjs",
