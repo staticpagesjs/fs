@@ -110,7 +110,7 @@ export function createFilesystem(files: Record<string, FileContent>): Filesystem
 }
 
 const encoder = new TextEncoder();
-const decoder = new TextDecoder('utf-8', { ignoreBOM: true });
+const decoder = new TextDecoder('latin1');
 
 function Uint8ArrayToBase64(from: Uint8Array) {
 	return btoa(decoder.decode(from));
